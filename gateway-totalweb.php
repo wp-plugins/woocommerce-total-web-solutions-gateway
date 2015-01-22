@@ -22,7 +22,7 @@ class WC_Gateway_Totalweb extends WC_Payment_Gateway {
 		global $woocommerce;
 		
 		$this->id			= 'totalweb';
-        $this->icon 		= apply_filters('woocommerce_totalweb_icon', plugins_url('images/totalweb.png', __FILE__));
+        $this->icon 		= apply_filters('woocommerce_totalweb_icon', plugins_url('images/SupportedCardswithAmex.png', __FILE__));
         $this->has_fields 	= false;
 		$this->method_title = "Total Web Solutions";
 		
@@ -82,14 +82,14 @@ class WC_Gateway_Totalweb extends WC_Payment_Gateway {
 							'title' => __( 'Title' ), 
 							'type' => 'text', 
 							'description' => __( 'This controls the title which the user sees during checkout.', 'woocommerce' ), 
-							'default' => __( 'Total Web Solutions', 'woocommerce' ),
+							'default' => __( 'Pay Securely via Debit or Credit Card', 'woocommerce' ),
 							'css' => "width: 300px;"
 						), 
 			'description' => array(
 							'title' => __( 'Description', 'woocommerce' ), 
 							'type' => 'textarea', 
 							'description' => __( 'This controls the description which the user sees during checkout.', 'woocommerce' ), 
-							'default' => 'Pay with your credit card via Total Web Solutions.'
+							'default' => 'Secure Card Payment via Total Web Solutions PCI Compliant Payment Gateway'
 						),  
 			'login_id' => array(
 							'title' => __( 'API Login ID', 'woocommerce' ), 
