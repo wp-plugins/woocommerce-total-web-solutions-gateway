@@ -64,6 +64,11 @@ Click Save Changes and module configured and ready to be tested.
 
 == Frequently asked questions ==
 
+= What versions of WooCommerce is this compatable with? =
+
+At the moment, this plugin has been tested and is known to work up to version
+2.1. If you are using a later version, please contact us regarding this.
+
 = Where can I get more information? =
 
 Please contact support@totalwebsolutions.com if you have any questions about
