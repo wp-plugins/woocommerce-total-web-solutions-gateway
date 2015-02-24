@@ -4,7 +4,7 @@ Donate link: N/A
 Tags: TWS, woocommerce, woothemes, payment
 Requires at least: 3.3
 Tested up to: 3.5.1
-Stable tag: trunk
+Stable tag: 1.1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -31,10 +31,10 @@ Upload this to your server when the wordpress and WooCommerce are installed
 via FTP or other file transfer method to the wordpress/wp-content/plugins
 directory
 
-The zip file needs to be unzipped as follows :-
+The zip file needs to be unzipped as follows :
 
-# cd wordpress/wp-content/plugins
-# unzip wc-gateway-tws.zip
+cd wordpress/wp-content/plugins
+unzip wc-gateway-tws.zip
 
 Login to Word press as Administrator 
 
@@ -78,7 +78,7 @@ with this module, please Email sales@totalwebsolutions.com.
 == Changelog ==
 
 = Version 1.1.0 - 20150224 =
-Removed depriciate elements for WooCommerce 2.3
+Removed depriciated elements for WooCommerce 2.3
 
 = Version 1.0 - 20130520 =
 Initial release
