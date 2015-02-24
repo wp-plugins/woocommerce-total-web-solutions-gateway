@@ -67,7 +67,7 @@ Click Save Changes and module configured and ready to be tested.
 = What versions of WooCommerce is this compatable with? =
 
 At the moment, this plugin has been tested and is known to work up to version
-2.1. If you are using a later version, please contact us regarding this.
+2.3.5. If you are using a later version, please contact us regarding this.
 
 = Where can I get more information? =
 
@@ -76,6 +76,9 @@ the installation of the module. If you would like to setup an account to use
 with this module, please Email sales@totalwebsolutions.com.
 
 == Changelog ==
+
+= Version 1.1.0 - 20150224 =
+Removed depriciate elements for WooCommerce 2.3
 
 = Version 1.0 - 20130520 =
 Initial release

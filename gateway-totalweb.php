@@ -42,8 +42,8 @@ class WC_Gateway_Totalweb extends WC_Payment_Gateway {
 		$this->tran_mode	= $this->settings['tran_mode'];
 		$this->debug		= $this->settings['debug'];
 		
-		// Logs
-		if ($this->debug=='yes') $this->log = $woocommerce->logger();
+		// Logs cause issues in 2.3
+		//if ($this->debug=='yes') $this->log = $woocommerce->logger();
 		
 		// Hooks
 		add_action('woocommerce_receipt_totalweb', array(&$this, 'receipt_page'));
@@ -228,16 +228,16 @@ class WC_Gateway_Totalweb extends WC_Payment_Gateway {
 		
 		
 		if ( get_option('woocommerce_prices_include_tax')=='yes' || $order->get_order_discount() > 0 ) {
-			if ( ( $order->get_shipping() + $order->get_shipping_tax() ) > 0 ) {
-				$params['x_freight'] = number_format($order->get_shipping() + $order->get_shipping_tax(), 2, '.', '');
+			if ( ( $order->get_total_shipping() + $order->get_total_shipping_tax() ) > 0 ) {
+				$params['x_freight'] = number_format($order->get_total_shipping() + $order->get_total_shipping_tax(), 2, '.', '');
 			}
 		} else {
 			// Tax
 			$params['x_tax'] = $order->get_total_tax();
 			
 			// Shipping Cost item
-			if ($order->get_shipping()>0) {
-				$params['x_freight'] = number_format($order->get_shipping(), 2, '.', '');
+			if ($order->get_total_shipping()>0) {
+				$params['x_freight'] = number_format($order->get_total_shipping(), 2, '.', '');
 			}
 		}
 		
@@ -263,7 +263,7 @@ class WC_Gateway_Totalweb extends WC_Payment_Gateway {
 			$item_name 		= substr(implode(', ', $item_names), 0, 31);
 			$item_desc 		= substr(implode(', ', $item_names), 0, 255);
 			$item_qty 		= 1;
-			$item_amount 	= (number_format($order->get_total() - $order->get_shipping() - $order->get_shipping_tax(), 2, '.', '')); // Include discount
+			$item_amount 	= (number_format($order->get_total() - $order->get_total_shipping() - $order->get_total_shipping_tax(), 2, '.', '')); // Include discount
 			$item_tax 		= 'NO';
 			
 			$line_items 	.= '<input type="hidden" name="x_line_item" value="' . esc_attr("{$item_id}<|>{$item_name}<|>{$item_desc}<|>{$item_qty}<|>{$item_amount}<|>{$item_tax}") . '" />';
