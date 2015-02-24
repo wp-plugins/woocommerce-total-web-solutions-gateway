@@ -461,7 +461,7 @@ class WC_Gateway_Totalweb extends WC_Payment_Gateway {
 				exit;
 			} else { // if error
 				$message = $_REQUEST['reason_text'];
-				$woocommerce->add_error($message);
+				wc_add_notice($message, $notice_type = 'success' );
 			}
 		}
 	}
