@@ -4,7 +4,7 @@ Donate link: N/A
 Tags: TWS, woocommerce, woothemes, payment
 Requires at least: 3.3
 Tested up to: 3.5.1
-Stable tag: 1.1.2
+Stable tag: 1.1.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -34,6 +34,7 @@ directory
 The zip file needs to be unzipped as follows :
 
 cd wordpress/wp-content/plugins
+
 unzip wc-gateway-tws.zip
 
 Login to Word press as Administrator 
@@ -76,6 +77,9 @@ the installation of the module. If you would like to setup an account to use
 with this module, please Email sales@totalwebsolutions.com.
 
 == Changelog ==
+
+= Version 1.1.4 - 20150224 =
+Issue with error logging
 
 = Version 1.1.0 - 20150224 =
 Removed depriciated elements for WooCommerce 2.3
