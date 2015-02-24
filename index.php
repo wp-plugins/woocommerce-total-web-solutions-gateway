@@ -3,7 +3,7 @@
 Plugin Name: WC Total Web Solutions Gateway
 Plugin URI: http://payments.totalwebsolutions.com
 Description: Intergrates to the Total Web Solutions Pay Page 
-Version: 1.1.0
+Version: 1.1.1
 Author: <support@totalwebsolutions.com>
 Author URI: http://www.totalwebsolutions.com
 
