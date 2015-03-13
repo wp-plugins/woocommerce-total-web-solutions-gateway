@@ -78,6 +78,9 @@ with this module, please Email sales@totalwebsolutions.com.
 
 == Changelog ==
 
+= Version 1.1.6 - 20150315 =
+Tax inclusive issue fixed
+
 = Version 1.1.5 - 20150224 =
 Tax on shipping fixed
 
