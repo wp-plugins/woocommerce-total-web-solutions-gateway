@@ -222,7 +222,7 @@ class WC_Gateway_Totalweb extends WC_Payment_Gateway {
 			"x_customer_ip" 	=> $_SERVER['REMOTE_ADDR'],
 			"x_invoice_num" 	=> $order->id,
 			"x_fp_sequence"		=> $order->order_key,
-			"x_amount" 			=> $order->get_total(),
+			"x_amount" 			=> number_format($order->get_total(), 2, '.', ''),
 			"x_currency_code"	=> 'GBP',
 		);
 		
