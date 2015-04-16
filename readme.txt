@@ -4,7 +4,7 @@ Donate link: N/A
 Tags: TWS, woocommerce, woothemes, payment
 Requires at least: 3.3
 Tested up to: 3.5.1
-Stable tag: 1.1.7
+Stable tag: 1.1.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 

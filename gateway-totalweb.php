@@ -17,6 +17,16 @@ class WC_Gateway_Totalweb extends WC_Payment_Gateway {
 	 * notify url
 	 */
 	var $notify_url;
+
+	public function log( $message ) {
+                if ( $this->debug ) {
+                        if ( empty( $this->log ) ) {
+                                $this->log = new WC_Logger();
+                        }
+                        $this->log->add( 'totalweb', $message );
+
+                }
+        }
 	
 	function __construct() { 
 		global $woocommerce;
@@ -38,12 +48,10 @@ class WC_Gateway_Totalweb extends WC_Payment_Gateway {
 		$this->description	= $this->settings['description'];
 		$this->login_id		= $this->settings['login_id'];
 		$this->md5_hash		= $this->settings['md5_hash'];
-		$this->type			= $this->settings['type'];
+		// No longer needed
+		//$this->type			= $this->settings['type'];
 		$this->tran_mode	= $this->settings['tran_mode'];
 		$this->debug		= $this->settings['debug'];
-		
-		// Logs cause issues in 2.3
-		if ($this->debug=='yes_tws') $this->log = $woocommerce->logger();
 		
 		// Hooks
 		add_action('woocommerce_receipt_totalweb', array(&$this, 'receipt_page'));
@@ -113,7 +121,7 @@ class WC_Gateway_Totalweb extends WC_Payment_Gateway {
 			'debug' => array(
 						'title' => __( 'Debug', 'woocommerce' ), 
 						'type' => 'checkbox', 
-						'label' => __( 'Enable logging (<code>woocommerce/logs/totalweb.txt</code>)', 'woocommerce' ), 
+						'label' => __( 'Enable logging (<code>' . wc_get_log_file_path( 'totalweb' ).  '</code>)', 'woocommerce' ), 
 						'default' => 'no'
 					)
 			);
@@ -186,8 +194,7 @@ class WC_Gateway_Totalweb extends WC_Payment_Gateway {
 	function get_params( $order) {
 		global $woocommerce;
 		
-		if ($this->debug=='yes_tws') 
-			$this->log->add( 'totalweb', 'Generating payment form for order #' . $order->id);
+		$this->log('Generating payment form for order #' . $order->id);
 		
 		$params = array();
 		
@@ -321,8 +328,7 @@ class WC_Gateway_Totalweb extends WC_Payment_Gateway {
 		$params['x_fp_timestamp'] 	= $time;
 		$params['x_fp_hash'] 		= $fp_hash;
 		
-		if ($this->debug=='yes_tws') 
-			$this->log->add( 'totalweb', "Params: " . print_r($params,true));
+		$this->log( "Params: " . print_r($params,true));
 		
 		$form = new AuthorizeNetSIM_Form($params);
 
@@ -337,7 +343,7 @@ class WC_Gateway_Totalweb extends WC_Payment_Gateway {
 <script type="text/javascript">					
 	jQuery(function($){
 		$("body").block({
-			message: '<img src="<?php echo $woocommerce->plugin_url() ?>/assets/images/ajax-loader.gif" alt="Redirecting…" style="float:left; margin-right: 10px;" /><?php _e('Thank you for your order. We are now redirecting you to TWS to make payment.', 'woocommerce') ?>', 
+			message: '<img src="<?php echo $woocommerce->plugin_url() ?>/assets/images/ajax-loader.gif" alt="Redirecting." style="float:left; margin-right: 10px;" /><?php _e('Thank you for your order. We are now redirecting you to TWS to make payment.', 'woocommerce') ?>', 
 			overlayCSS: 
 			{ 
 				background: "#fff", 
@@ -406,10 +412,8 @@ class WC_Gateway_Totalweb extends WC_Payment_Gateway {
 				
 				$this->notify_url = get_permalink(woocommerce_get_page_id('cart'));
 				
-				if ($this->debug=='yes_tws') { 
-					$this->log->add( 'totalweb', "Relay response:" . print_r($_POST,true));
-					$this->log->add( 'totalweb', "Login ID:" . $this->login_id . "; md5: " . $this->md5_hash);
-				}
+				$this->log( "Relay response:" . print_r($_POST,true));
+				$this->log( "Login ID:" . $this->login_id . "; md5: " . $this->md5_hash);
 				
 				$response = new AuthorizeNetSIM($this->login_id, $this->md5_hash);
 
@@ -421,24 +425,21 @@ class WC_Gateway_Totalweb extends WC_Payment_Gateway {
 							
 							$order->add_order_note( __('Total Web Solutions payment completed', 'woocommerce') . ' (Transaction ID: ' . $response->transaction_id . ')' );
 							
-							if ($this->debug=='yes_tws') 
-								$this->log->add( 'totalweb', 'Total Web Solutions payment completed (Transaction ID: ' . $response->transaction_id . ')');
+							$this->log( 'Total Web Solutions payment completed (Transaction ID: ' . $response->transaction_id . ')');
 							
 							$order->payment_complete();
 							$woocommerce->cart->empty_cart();
 							
 							$redirect = add_query_arg('key', $order->order_key, add_query_arg('order', $order_id, get_permalink(woocommerce_get_page_id('thanks'))));
 						} else {
-							if ($this->debug=='yes_tws') 
-								$this->log->add( 'totalweb', 'Empty Order ID');
+							$this->log( 'Empty Order ID');
 							
 							$redirect = add_query_arg('authorizeListenerSIM', 'error', $this->notify_url);
 							$redirect = add_query_arg('reason_text', __('Error: Empty Order ID', 'woocommerce'), $redirect); // add reeson text
 						}
 					} else {
 
-						if ($this->debug=='yes_tws') 
-							$this->log->add( 'totalweb', sprintf("Error %s: %s", $response->response_reason_code, $response->response_reason_text));
+						$this->log( sprintf("Error %s: %s", $response->response_reason_code, $response->response_reason_text));
 						
 						$redirect = add_query_arg('authorizeListenerSIM', 'error', $this->notify_url);
 						$redirect = add_query_arg('reason_code', $response->response_reason_code, $redirect); // add reeson code
@@ -448,8 +449,7 @@ class WC_Gateway_Totalweb extends WC_Payment_Gateway {
 					}
 
 				} else {
-					if ($this->debug=='yes_tws') 
-						$this->log->add( 'totalweb', "MD5 Hash failed. Check to make sure your MD5 Setting matches the one in admin option");
+					$this->log( "MD5 Hash failed. Check to make sure your MD5 Setting matches the one in admin option");
 					
 					$redirect = add_query_arg('authorizeListenerSIM', 'error', $this->notify_url);
 					$redirect = add_query_arg('reason_text', __("MD5 Hash failed. Check to make sure your MD5 Setting matches the one in admin option", "woocommerce"), $redirect); // add reeson text
@@ -467,3 +467,5 @@ class WC_Gateway_Totalweb extends WC_Payment_Gateway {
 	}
 	
 } // end woocommerce_2checkout
+
+
